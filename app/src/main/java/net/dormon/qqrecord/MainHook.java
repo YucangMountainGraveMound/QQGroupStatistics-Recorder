@@ -13,17 +13,13 @@ import static net.dormon.qqrecord.Utils.log;
 
 public class MainHook implements IXposedHookLoadPackage {
 
-    private XC_LoadPackage.LoadPackageParam lpparam;
-
     @Override
     public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam loadPackageParam)
             throws Throwable {
 
-        this.lpparam = loadPackageParam;
-
         findAndHookMethod(
                 "com.tencent.common.app.QFixApplicationImpl",
-                lpparam.classLoader,
+                loadPackageParam.classLoader,
                 "isAndroidNPatchEnable",
                 XC_MethodReplacement.returnConstant(false)
         );
